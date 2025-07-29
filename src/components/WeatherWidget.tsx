@@ -39,7 +39,7 @@ export const WeatherWidget = () => {
         <span className="font-bold text-lg">{currentWeather.temperature}°F</span>
       </div>
       <div className="text-xs text-muted-foreground">
-        Sol City Weather
+        Today's Weather
       </div>
       <div className="text-xs font-medium">
         {currentWeather.description}

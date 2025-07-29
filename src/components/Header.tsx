@@ -40,10 +40,10 @@ export const Header = () => {
             </div>
             <div>
               <h1 className="font-newspaper text-3xl font-bold text-primary">
-                Sol City Portal
+                Slice of Life Portal
               </h1>
               <p className="text-muted-foreground italic font-serif">
-                "Where Every Life Has a Story"
+                "Where your story begins."
               </p>
             </div>
           </div>
