@@ -13,13 +13,13 @@ interface Character {
 }
 
 const featuredCharacter: Character = {
-  name: 'Marcus Rivera',
+  name: 'Morticia Johnson',
   age: 34,
-  occupation: 'Local Librarian',
-  location: 'Downtown Sol City',
-  personality: 'Thoughtful and well-read, with a passion for local history and a mysterious past.',
+  occupation: 'Local Menace',
+  location: 'In a dumpster near Rocket Wrench',
+  personality: 'Sassy, crazy, funny and mysterious all in one. She\'ll have you questioning quite a bit.',
   recentActivity: 'Recently discovered old city records in the library basement that hint at Sol City\'s forgotten supernatural history.',
-  playerName: 'Alex_M'
+  playerName: 'Mom'
 };
 
 export const CharacterSpotlight = () => {
@@ -27,7 +27,7 @@ export const CharacterSpotlight = () => {
     <Card className="p-4 bg-gradient-to-br from-card to-accent/10">
       <div className="flex items-center space-x-2 mb-4">
         <Star className="w-5 h-5 text-accent" />
-        <h2 className="font-semibold text-primary">Character Spotlight</h2>
+        <h2 className="font-semibold text-primary">Citizen Spotlight</h2>
       </div>
 
       <div className="space-y-3">
