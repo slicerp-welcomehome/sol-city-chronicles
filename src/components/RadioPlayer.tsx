@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 const radioStations = [
   { name: "Sol Jazz FM", url: "http://go-stream-live.com:8368/stream", genre: "Jazz & Blues" },
-  { name: "Classic Rock 101", url: "http://144.217.129.213:8040/stream", genre: "Classic Rock" },
+  { name: "Classic Rock 101", url: "http://80.237.156.8:8100", genre: "Classic Rock" },
   { name: "Chill Lounge", url: "http://198.58.98.83:8258/stream", genre: "Ambient" }
 ];
 
