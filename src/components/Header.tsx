@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { WeatherWidget } from './WeatherWidget';
+import { AuthButton } from './AuthButton';
 
 export const Header = () => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -48,13 +49,16 @@ export const Header = () => {
             </div>
           </div>
 
-          {/* Date, Time & Weather */}
+          {/* Date, Time, Weather & Auth */}
           <div className="text-right space-y-2">
             <div className="text-sm text-muted-foreground">
               <div>{formatDate(currentDateTime)}</div>
               <div className="font-mono">{formatTime(currentDateTime)}</div>
             </div>
-            <WeatherWidget />
+            <div className="flex items-center justify-end space-x-4">
+              <WeatherWidget />
+              <AuthButton />
+            </div>
           </div>
         </div>
       </div>

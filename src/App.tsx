@@ -10,6 +10,7 @@ import Services from "./pages/Services";
 import CommunityBoard from "./pages/CommunityBoard";
 import Resources from "./pages/Resources";
 import Directory from "./pages/Directory";
+import AdminPanel from "./pages/AdminPanel";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/board" element={<CommunityBoard />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/directory" element={<Directory />} />
+            <Route path="/admin" element={<AdminPanel />} />
             <Route path="/whisper-wire" element={<WhisperWire />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
