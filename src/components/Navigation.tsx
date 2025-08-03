@@ -7,6 +7,7 @@ const navItems = [
   { name: 'Community Board', path: '/board' },
   { name: 'RP Resources', path: '/resources' },
   { name: 'Directory', path: '/directory' },
+  { name: 'Real Estate', path: '/real-estate' },
   { name: 'Admin Panel', path: '/admin' },
   { name: 'Staff Hall', path: '/staff' },
   { name: 'Join Sol', path: '/join' },
