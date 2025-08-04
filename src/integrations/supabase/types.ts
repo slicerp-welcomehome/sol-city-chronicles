@@ -14,6 +14,104 @@ export type Database = {
   }
   public: {
     Tables: {
+      businesses: {
+        Row: {
+          address: string | null
+          category: string
+          created_at: string
+          description: string | null
+          featured: boolean | null
+          hours: string | null
+          id: string
+          menu: Json | null
+          name: string
+          owner_id: string
+          owner_name: string | null
+          phone: string | null
+          services: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          category: string
+          created_at?: string
+          description?: string | null
+          featured?: boolean | null
+          hours?: string | null
+          id?: string
+          menu?: Json | null
+          name: string
+          owner_id: string
+          owner_name?: string | null
+          phone?: string | null
+          services?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          category?: string
+          created_at?: string
+          description?: string | null
+          featured?: boolean | null
+          hours?: string | null
+          id?: string
+          menu?: Json | null
+          name?: string
+          owner_id?: string
+          owner_name?: string | null
+          phone?: string | null
+          services?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      certifications: {
+        Row: {
+          business_id: string
+          certification_number: string | null
+          created_at: string
+          expires_date: string | null
+          id: string
+          issued_date: string | null
+          issuer: string | null
+          name: string
+          updated_at: string
+          verified: boolean | null
+        }
+        Insert: {
+          business_id: string
+          certification_number?: string | null
+          created_at?: string
+          expires_date?: string | null
+          id?: string
+          issued_date?: string | null
+          issuer?: string | null
+          name: string
+          updated_at?: string
+          verified?: boolean | null
+        }
+        Update: {
+          business_id?: string
+          certification_number?: string | null
+          created_at?: string
+          expires_date?: string | null
+          id?: string
+          issued_date?: string | null
+          issuer?: string | null
+          name?: string
+          updated_at?: string
+          verified?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "certifications_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       events: {
         Row: {
           author_id: string
@@ -157,6 +255,47 @@ export type Database = {
           zipcode?: string | null
         }
         Relationships: []
+      }
+      reviews: {
+        Row: {
+          business_id: string
+          comment: string | null
+          created_at: string
+          id: string
+          rating: number
+          reviewer_name: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          business_id: string
+          comment?: string | null
+          created_at?: string
+          id?: string
+          rating: number
+          reviewer_name?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          business_id?: string
+          comment?: string | null
+          created_at?: string
+          id?: string
+          rating?: number
+          reviewer_name?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
