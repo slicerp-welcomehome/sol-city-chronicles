@@ -86,8 +86,8 @@ export const AuthButton = () => {
   }
 
   return (
-    <Button onClick={signInWithDiscord}>
-      Sign in with Discord
+    <Button onClick={() => window.location.href = '/auth'}>
+      Sign In
     </Button>
   );
 };

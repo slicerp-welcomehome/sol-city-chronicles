@@ -12,6 +12,7 @@ import Resources from "./pages/Resources";
 import Directory from "./pages/Directory";
 import RealEstate from "./pages/RealEstate";
 import AdminPanel from "./pages/AdminPanel";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/directory" element={<Directory />} />
             <Route path="/real-estate" element={<RealEstate />} />
             <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="/whisper-wire" element={<WhisperWire />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
