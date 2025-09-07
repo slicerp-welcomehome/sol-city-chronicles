@@ -45,7 +45,7 @@ export const BusinessPage = () => {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<Partial<Business>>({});
-  const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
+  const [newReview, setNewReview] = useState({ rating: 5, comment: '', anonymous: false });
   const [showReviewForm, setShowReviewForm] = useState(false);
 
   const isOwner = business && user && business.owner_id === user.id;
@@ -155,12 +155,12 @@ export const BusinessPage = () => {
           user_id: user?.id,
           rating: newReview.rating,
           comment: newReview.comment || null,
-          reviewer_name: profile?.display_name || 'Anonymous'
+          reviewer_name: newReview.anonymous ? 'Anonymous' : (profile?.display_name || 'Anonymous')
         });
 
       if (error) throw error;
 
-      setNewReview({ rating: 5, comment: '' });
+      setNewReview({ rating: 5, comment: '', anonymous: false });
       setShowReviewForm(false);
       fetchReviews();
       toast({
@@ -407,6 +407,18 @@ export const BusinessPage = () => {
                   onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
                   rows={3}
                 />
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="anonymous"
+                    checked={newReview.anonymous}
+                    onChange={(e) => setNewReview({ ...newReview, anonymous: e.target.checked })}
+                    className="h-4 w-4"
+                  />
+                  <label htmlFor="anonymous" className="text-sm">
+                    Post anonymously
+                  </label>
+                </div>
                 <div className="flex space-x-2">
                   <Button size="sm" onClick={handleReviewSubmit}>
                     Submit Review
