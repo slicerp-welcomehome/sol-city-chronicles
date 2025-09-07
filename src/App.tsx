@@ -10,6 +10,7 @@ import Services from "./pages/Services";
 import CommunityBoard from "./pages/CommunityBoard";
 import Resources from "./pages/Resources";
 import Directory from "./pages/Directory";
+import BusinessPage from "./pages/BusinessPage";
 import RealEstate from "./pages/RealEstate";
 import AdminPanel from "./pages/AdminPanel";
 import Auth from "./pages/Auth";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/board" element={<CommunityBoard />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/directory" element={<Directory />} />
+            <Route path="/business/:id" element={<BusinessPage />} />
             <Route path="/real-estate" element={<RealEstate />} />
             <Route path="/admin" element={<AdminPanel />} />
             <Route path="/auth" element={<Auth />} />

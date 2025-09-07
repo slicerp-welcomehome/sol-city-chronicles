@@ -2,110 +2,82 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Search, MapPin, Phone, Clock, Star, Building, Coffee, Utensils, ShoppingBag, Wrench } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 interface Business {
+  id: string;
   name: string;
   category: string;
-  description: string;
-  address: string;
-  phone: string;
-  hours: string;
-  owner: string;
-  rating: number;
-  featured?: boolean;
-  services?: string[];
+  description: string | null;
+  address: string | null;
+  phone: string | null;
+  hours: string | null;
+  owner_name: string | null;
+  owner_id: string;
+  featured: boolean;
+  services: string[] | null;
+  created_at: string;
+  updated_at: string;
 }
-
-const businesses: Business[] = [
-  {
-    name: 'The Grind Coffee & Books',
-    category: 'Food & Drink',
-    description: 'Cozy coffee shop with freshly roasted beans, pastries, and a curated book selection',
-    address: '42 Main Street',
-    phone: '(555) 555-BREW',
-    hours: 'Mon-Sun 6:00 AM - 9:00 PM',
-    owner: 'Maria Santos',
-    rating: 4.8,
-    featured: true,
-    services: ['Coffee', 'Pastries', 'Books', 'Free WiFi', 'Study Space']
-  },
-  {
-    name: 'Riverside Diner',
-    category: 'Food & Drink',
-    description: 'Classic American diner serving hearty breakfast and comfort food since 1962',
-    address: '128 River Road',
-    phone: '(555) 555-DINE',
-    hours: 'Daily 5:00 AM - 11:00 PM',
-    owner: 'Frank & Betty Williams',
-    rating: 4.6,
-    services: ['Breakfast', 'Lunch', 'Dinner', 'Takeout', 'Catering']
-  },
-  {
-    name: 'Sol City Hardware',
-    category: 'Hardware & Tools',
-    description: 'Your neighborhood hardware store with tools, supplies, and expert advice',
-    address: '67 Oak Avenue',
-    phone: '(555) 555-TOOL',
-    hours: 'Mon-Sat 7:00 AM - 7:00 PM, Sun 9:00 AM - 5:00 PM',
-    owner: 'Thomas Chen',
-    rating: 4.7,
-    services: ['Tools', 'Hardware', 'Paint', 'Garden Supplies', 'Key Cutting']
-  },
-  {
-    name: 'Whispers Bookstore & Antiques',
-    category: 'Retail',
-    description: 'Mysterious bookstore specializing in rare books, antiques, and curiosities',
-    address: '13 Elm Street',
-    phone: '(555) 555-BOOK',
-    hours: 'Tue-Sat 10:00 AM - 6:00 PM',
-    owner: 'Eleanor Blackwood',
-    rating: 4.9,
-    featured: true,
-    services: ['Rare Books', 'Antiques', 'Appraisals', 'Special Orders']
-  },
-  {
-    name: 'Sunrise Auto Repair',
-    category: 'Automotive',
-    description: 'Honest and reliable auto repair serving Sol City for over 20 years',
-    address: '234 Industrial Drive',
-    phone: '(555) 555-AUTO',
-    hours: 'Mon-Fri 8:00 AM - 6:00 PM, Sat 8:00 AM - 4:00 PM',
-    owner: 'Miguel Rodriguez',
-    rating: 4.5,
-    services: ['Oil Changes', 'Brake Repair', 'Engine Diagnostics', 'Towing']
-  },
-  {
-    name: 'Petals & Blooms Florist',
-    category: 'Retail',
-    description: 'Fresh flowers, arrangements, and plants for all occasions',
-    address: '89 Garden Lane',
-    phone: '(555) 555-BLOOM',
-    hours: 'Mon-Sat 9:00 AM - 7:00 PM, Sun 11:00 AM - 4:00 PM',
-    owner: 'Sarah Mitchell',
-    rating: 4.8,
-    services: ['Fresh Flowers', 'Arrangements', 'Plants', 'Wedding Flowers', 'Delivery']
-  }
-];
 
 const categories = ['All', 'Food & Drink', 'Retail', 'Hardware & Tools', 'Automotive', 'Services'];
 
 export const Directory = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
+  const [businesses, setBusinesses] = useState<Business[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    fetchBusinesses();
+  }, []);
+
+  const fetchBusinesses = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('businesses')
+        .select('*')
+        .order('featured', { ascending: false })
+        .order('name');
+
+      if (error) throw error;
+      setBusinesses(data || []);
+    } catch (error) {
+      console.error('Error fetching businesses:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load businesses",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredBusinesses = businesses.filter(business => {
     const matchesCategory = selectedCategory === 'All' || business.category === selectedCategory;
     const matchesSearch = searchTerm === '' || 
       business.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      business.description.toLowerCase().includes(searchTerm.toLowerCase());
+      (business.description && business.description.toLowerCase().includes(searchTerm.toLowerCase()));
     
     return matchesCategory && matchesSearch;
   });
 
   const featuredBusinesses = filteredBusinesses.filter(b => b.featured);
   const regularBusinesses = filteredBusinesses.filter(b => !b.featured);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-64">
+        <div className="text-center">Loading businesses...</div>
+      </div>
+    );
+  }
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -244,9 +216,11 @@ const BusinessCard = ({ business, featured = false }: BusinessCardProps) => {
               {getCategoryIcon(business.category)}
             </div>
             <div>
-              <h3 className="font-newspaper text-lg font-bold text-primary">
-                {business.name}
-              </h3>
+              <Link to={`/business/${business.id}`}>
+                <h3 className="font-newspaper text-lg font-bold text-primary hover:text-primary/80 transition-colors cursor-pointer">
+                  {business.name}
+                </h3>
+              </Link>
               <Badge variant="outline" className="text-xs">
                 {business.category}
               </Badge>
@@ -262,7 +236,7 @@ const BusinessCard = ({ business, featured = false }: BusinessCardProps) => {
 
         {/* Description */}
         <p className="text-muted-foreground text-sm">
-          {business.description}
+          {business.description || 'No description available.'}
         </p>
 
         {/* Services */}
@@ -285,29 +259,30 @@ const BusinessCard = ({ business, featured = false }: BusinessCardProps) => {
         <div className="space-y-2 text-sm">
           <div className="flex items-center space-x-2">
             <MapPin className="w-4 h-4 text-primary" />
-            <span>{business.address}</span>
+            <span>{business.address || 'No address provided'}</span>
           </div>
           
           <div className="flex items-center space-x-2">
             <Phone className="w-4 h-4 text-primary" />
-            <span>{business.phone}</span>
+            <span>{business.phone || 'No phone provided'}</span>
           </div>
           
           <div className="flex items-center space-x-2">
             <Clock className="w-4 h-4 text-primary" />
-            <span>{business.hours}</span>
+            <span>{business.hours || 'Hours not provided'}</span>
           </div>
         </div>
 
         {/* Footer */}
         <div className="flex items-center justify-between pt-2 border-t border-border">
           <div className="text-sm text-muted-foreground">
-            Owner: {business.owner}
+            Owner: {business.owner_name || 'Not specified'}
           </div>
-          <div className="flex items-center space-x-1">
-            <Star className="w-4 h-4 text-accent fill-current" />
-            <span className="text-sm font-medium">{business.rating}</span>
-          </div>
+          <Link to={`/business/${business.id}`}>
+            <Button size="sm" variant="outline">
+              View Details
+            </Button>
+          </Link>
         </div>
       </div>
     </Card>
