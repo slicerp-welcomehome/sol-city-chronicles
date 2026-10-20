@@ -145,6 +145,42 @@ export type Database = {
         }
         Relationships: []
       }
+      lore_events: {
+        Row: {
+          author_id: string
+          created_at: string
+          id: string
+          location: string | null
+          lore_date: string
+          story: string
+          tagged_resident_ids: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          created_at?: string
+          id?: string
+          location?: string | null
+          lore_date: string
+          story: string
+          tagged_resident_ids?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          created_at?: string
+          id?: string
+          location?: string | null
+          lore_date?: string
+          story?: string
+          tagged_resident_ids?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       news_posts: {
         Row: {
           author_id: string
