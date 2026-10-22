@@ -5,6 +5,7 @@ const navItems = [
   { name: 'Home', path: '/' },
   { name: 'Town Services', path: '/services' },
   { name: 'Community Board', path: '/board' },
+  { name: 'Timeline', path: '/timeline' },
   { name: 'RP Resources', path: '/resources' },
   { name: 'Directory', path: '/directory' },
   { name: 'Real Estate', path: '/real-estate' },
