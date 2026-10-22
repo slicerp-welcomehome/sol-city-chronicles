@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 
 export default function Auth() {
@@ -15,6 +15,9 @@ export default function Auth() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const { user, loading: authLoading } = useAuth();
+  const location = useLocation();
+  const from = location.state?.from;
+  const returnTo = typeof from === 'string' && (from === '/dashboard' || from.startsWith('/dashboard/citizens/')) ? from : '/';
 
   // Redirect if already authenticated
   if (authLoading) {
@@ -26,7 +29,7 @@ export default function Auth() {
   }
 
   if (user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={returnTo} replace />;
   }
 
   const signInWithEmail = async (e: React.FormEvent) => {
