@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/hooks/useAuth';
+import { canAccessDashboard } from '@/lib/dashboard';
 
 const navItems = [
   { name: 'Home', path: '/' },
@@ -15,11 +17,13 @@ const navItems = [
 ];
 
 export const Navigation = () => {
+  const { user } = useAuth();
+  const items = canAccessDashboard(user) ? [navItems[0], { name: 'Dashboard', path: '/dashboard' }, ...navItems.slice(1)] : navItems;
   return (
     <nav className="bg-primary text-primary-foreground border-b border-primary-foreground/20">
       <div className="max-w-7xl mx-auto">
-        <div className="flex space-x-1">
-          {navItems.map((item) => (
+        <div className="flex flex-wrap gap-1">
+          {items.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
