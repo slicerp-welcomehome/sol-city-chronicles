@@ -112,6 +112,39 @@ export type Database = {
           },
         ]
       }
+      characters: {
+        Row: {
+          biography: string
+          created_at: string
+          id: string
+          name: string
+          neighborhood: string
+          occupation: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          biography?: string
+          created_at?: string
+          id?: string
+          name: string
+          neighborhood?: string
+          occupation?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          biography?: string
+          created_at?: string
+          id?: string
+          name?: string
+          neighborhood?: string
+          occupation?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           author_id: string
