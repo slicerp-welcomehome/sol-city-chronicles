@@ -13,6 +13,7 @@ import Directory from "./pages/Directory";
 import BusinessPage from "./pages/BusinessPage";
 import RealEstate from "./pages/RealEstate";
 import AdminPanel from "./pages/AdminPanel";
+import Timeline from "./pages/Timeline";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/directory" element={<Directory />} />
             <Route path="/business/:id" element={<BusinessPage />} />
             <Route path="/real-estate" element={<RealEstate />} />
+            <Route path="/timeline" element={<Timeline />} />
             <Route path="/admin" element={<AdminPanel />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/whisper-wire" element={<WhisperWire />} />
